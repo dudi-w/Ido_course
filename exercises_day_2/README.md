@@ -12,9 +12,12 @@ Create programs that increment a value from zero to 10 million using two differe
 #### Exercise 2: Thread-Safe Linked List
 Implement a thread-safe linked list data structure. You may choose to use a built-in data structure or implement it from scratch. Use any appropriate protection mechanism to ensure thread safety.
 
-Note: When compiling C++ programs that involve threads, remember to link the pthread library using the `-pthread` flag during compilation.
 
-Example compilation command:
-```bash
-g++ -pthread your_program.cpp -o your_program
+## Run and test
+
+to run the tests on the exercises in this folder
+
+```sh
+ g++ -std=c++20 -pthread -o asynchron_incrument_value asynchron_incrument_value.cpp
+ ./asynchron_incrument_value
 ```
