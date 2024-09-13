@@ -17,7 +17,16 @@ Implement a thread-safe linked list data structure. You may choose to use a buil
 
 to run the tests on the exercises in this folder
 
-```sh
- g++ -std=c++20 -pthread -o asynchron_incrument_value asynchron_incrument_value.cpp
- ./asynchron_incrument_value
-```
+- Exercise 1:
+  ```sh
+  g++ -std=c++20 -pthread -o asynchron_incrument_value asynchron_incrument_value.cpp
+  ./asynchron_incrument_value
+  ```
+- Exercise 2:
+  ```sh
+  mkdir build
+  cd build
+  cmake ..
+  make
+  ./thread_safe_list
+  ```
