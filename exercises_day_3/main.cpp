@@ -6,7 +6,8 @@
 
 int main(int argc, char const *argv[])
 {
-    std::cout<<std::boolalpha<<measureTime("isPrimeSync",isPrimeSync,12963097176472289281)<<std::endl;;
-    std::cout<<std::boolalpha<<measureTime("isPrimeAsync",isPrimeAsync,12963097176472289281)<<std::endl;;
+    ull n = std::stoull(argv[1]);
+    std::cout<<std::boolalpha<<measureTime("isPrimeSync",isPrimeSync,n)<<std::endl;;
+    std::cout<<std::boolalpha<<measureTime("isPrimeAsync",isPrimeAsync,n)<<std::endl;;
     return EXIT_SUCCESS;
 }
