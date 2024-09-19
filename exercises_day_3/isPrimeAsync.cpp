@@ -18,8 +18,9 @@ void isPrime(ull n, ull start, ull end, std::atomic<bool>& res){
 
 bool isPrimeAsync(ull n){
     int const numOfThreads = 8;
-    ull sqrt_n = sqrt(n);
-    ull unit = ceil(sqrt_n/numOfThreads);
+    ull sqrt_n = static_cast<ull>(sqrt(n));
+    ull unit = (sqrt_n/numOfThreads)+1;
+
     std::atomic<bool> res = true;
     std::array<std::jthread,numOfThreads> threads;
     for(int i = 0 ; i < numOfThreads; ++i){
