@@ -20,5 +20,5 @@ Ensure that both versions produce the same result for correctness.
 to run the tests on the exercises in this folder
 ```sh
 g++ -std=c++20 -pthread -o main main.cpp
-./main
+./main <number>
 ```
