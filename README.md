@@ -3,3 +3,4 @@ This repository contains my solutions to the daily exercises given during the C 
 
 - [**Day 1**](exercises_day_1):`` Dynamic Memory Allocation and Sorting Algorithms.``
 - [**Day 2**](exercises_day_2):`` Multithreading and Thread-Safe Data Structures.``.
+- [**Day 3**](exercises_day_3):`` Prime Number Checker with Multi-threading.``.
