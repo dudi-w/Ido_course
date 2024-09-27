@@ -12,6 +12,7 @@ void isPrime(ull n, ull start, ull end, std::atomic<bool>& res){
         }
         if(n%i == 0){
             res = false;
+            return;
         }
     }
 }
@@ -22,9 +23,12 @@ bool isPrimeAsync(ull n){
     ull unit = (sqrt_n/numOfThreads)+1;
 
     std::atomic<bool> res = true;
-    std::array<std::jthread,numOfThreads> threads;
+    std::array<std::thread,numOfThreads> threads;
     for(int i = 0 ; i < numOfThreads; ++i){
-        threads[i] = std::jthread(isPrime ,n ,2+(unit*i), 2+(unit*(i+1)),std::ref(res)); 
+        threads[i] = std::thread(isPrime ,n ,2+(unit*i), 2+(unit*(i+1)),std::ref(res)); 
+    }
+    for(int i = 0 ; i < numOfThreads; ++i){
+        threads[i].join(); 
     }
     return res;
 }
