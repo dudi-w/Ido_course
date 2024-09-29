@@ -18,6 +18,7 @@ public:
     void display() const;
     cf::gridType const& getGrid() const;
     bool isEmptyCell(int i, int j) const;
+    bool insert(int i, int j, std::string_view shape);
     bool move(size_t from_i, size_t from_j, size_t to_i, size_t to_j);
 
 private:

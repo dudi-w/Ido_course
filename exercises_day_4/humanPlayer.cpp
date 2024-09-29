@@ -28,7 +28,6 @@ int cf::HumanPlayer::playStep() const
     std::cin>>result;
     int n = stoi(result);
     if(n > 0 && n < 8){
-    std::cout<<n<<result<<std::endl;
         return n;
     }
     return 0;

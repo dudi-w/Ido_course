@@ -19,6 +19,7 @@ public:
 private:
     bool isGameOver(int i, int j) const;
     std::pair<int,int> makeStep(cf::IPlayer& player) const;
+    void winMessage() const;
 
 private:
     cf::IPlayer& m_player1;
