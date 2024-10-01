@@ -70,8 +70,8 @@ bool cf::Connect4Management::isGameOver(int lastCol, int lastRow) const
     // Check diagonal (top-left to bottom-right)
     count = 0;
     for (int r = lastRow - std::min(lastRow, lastCol), c = lastCol - std::min(lastRow, lastCol); r < ROWS && c < COLS; ++r, ++c) {
-        if(board[r][c] == shape){
-            count++;
+        if(board[c][r] == shape){
+            ++count;
             if(count == CONNECT){
                 return true;
             }
@@ -83,8 +83,8 @@ bool cf::Connect4Management::isGameOver(int lastCol, int lastRow) const
     // Check diagonal (top-right to bottom-left)
     count = 0;
     for(int r = lastRow - std::min(lastRow, COLS - 1 - lastCol), c = lastCol + std::min(lastRow, COLS - 1 - lastCol);r < ROWS && c >= 0; ++r, --c) {
-        if(board[r][c] == shape){
-            count++;
+        if(board[c][r] == shape){
+            ++count;
             if(count == CONNECT){
                 return true;
             }
