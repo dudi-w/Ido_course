@@ -13,6 +13,7 @@ set(SOURCES
     connect4management.cpp
     gridPlay.cpp
     humanPlayer.cpp
+    randomComputerPlayer.cpp
 )
 
 # Add headers (optional, not strictly necessary but good for IDEs)
@@ -20,6 +21,7 @@ set(HEADERS
     connect4management.hpp
     gridPlay.hpp
     humanPlayer.hpp
+    randomComputerPlayer.hpp
     IFplayer.hpp
 )
 
