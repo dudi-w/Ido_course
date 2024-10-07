@@ -7,6 +7,12 @@ project(ConnectFour)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# specify the C++ standard
+add_library(ConnectFour_flags INTERFACE)
+target_compile_options(ConnectFour_flags INTERFACE
+"-g3;-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused"
+)
+
 # Add all the source files
 set(SOURCES
     main.cpp
@@ -14,6 +20,7 @@ set(SOURCES
     gridPlay.cpp
     humanPlayer.cpp
     randomComputerPlayer.cpp
+    minimaxPlayer.cpp
 )
 
 # Add headers (optional, not strictly necessary but good for IDEs)
@@ -22,6 +29,7 @@ set(HEADERS
     gridPlay.hpp
     humanPlayer.hpp
     randomComputerPlayer.hpp
+    minimaxPlayer.hpp
     IFplayer.hpp
 )
 
