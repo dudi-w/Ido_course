@@ -5,13 +5,14 @@
 
 void cf::GridPlay::display() const
 {
-    std::string str;// = "\033[2J\033[1;1H";
-    str+="\n-----------------------\n";
+    std::string str = "\033[2J\033[1;1H";
+    str+=" 1️⃣  2️⃣  3️⃣  4️⃣  5️⃣  6️⃣  7️⃣";
+    str+="\n----------------------\n";
     for(size_t j = 0 ; j <m_grid[0].size(); ++j){
         for(size_t i = 0 ; i < m_grid.size(); ++i){
             str+=m_grid[i][j].empty()?"|  ":"|"+m_grid[i][j];
         }
-        str+="|\n-----------------------\n";
+        str+="|\n----------------------\n";
     }
     std::cout<<str<<std::flush;
 }
