@@ -1,6 +1,9 @@
 #include <limits>
 #include <iostream>//todo remove
 
+#include <cstdlib>
+#include <ctime>
+
 #include "minimaxPlayer.hpp"
 
 cf::MinimaxComputerPlayer::MinimaxComputerPlayer(int depth, cf::gridType const& board, std::string_view opposingPlayerShape, std::string name, std::string shape)
@@ -19,21 +22,24 @@ int cf::MinimaxComputerPlayer::playStep() const
     int beta = std::numeric_limits<int>::max();
 
     cf::gridType board = m_board;
-
+    std::vector<int> stepsScore(board.size(),std::numeric_limits<int>::min());
     for(int col = 0; col < board.size(); ++col){
         if(board[col][0].empty()){
             makeMove(col, this->getShape(), board);
             int moveValue = minimax(board ,m_depth-1, false, alpha, beta);
+            stepsScore[col] = moveValue;
             undoMove(col, this->getShape(), board);
             if(moveValue > bestValue){
                 bestMove = col;
                 bestValue = moveValue;
             }
-            alpha = std::max(alpha, bestValue);
-        std::cout<<"bestMove = "<<bestMove<<"  moveValue =  "<<moveValue<<std::endl;
+            // alpha = std::max(alpha, bestValue);
+            // std::cout<<"col = "<<col<<" bestMove = "<<bestMove<<"  moveValue =  "<<moveValue<<std::endl;
         }
     }
-    return bestMove+1;
+    // auto i = findRandomIndex(stepsScore)+1;
+    // std::cout<<"i = "<<i<<std::endl;
+    return findRandomIndex(stepsScore)+1;
 }
 
 std::string_view cf::MinimaxComputerPlayer::getName() const
@@ -68,30 +74,6 @@ bool cf::MinimaxComputerPlayer::isBoardFull(cf::gridType const& board) const
     return true;
 }
 
-// int cf::MinimaxComputerPlayer::findBestMove(int depth) const
-// {
-//     int bestMove = -1;
-//     int bestValue = std::numeric_limits<int>::min();
-//     int alpha = std::numeric_limits<int>::min();
-//     int beta = std::numeric_limits<int>::max();
-
-//     cf::gridType board = board;
-
-//     for(int col = 0; col < board.size(); ++col){
-//         if(board[col][0].empty()){
-//             makeMove(col, *this, board);
-//             int moveValue = minimax(board ,depth - 1, false, alpha, beta);
-//             undoMove(col,*this, board);
-//             if(moveValue > bestValue){
-//                 bestMove = col;
-//                 bestValue = moveValue;
-//             }
-//             alpha = std::max(alpha, bestValue);
-//         }
-//     }
-//     return bestMove;
-// }
-
 int cf::MinimaxComputerPlayer::evaluate(cf::gridType& board) const
 {
     for(int col = 0; col < board.size(); ++col){
@@ -121,9 +103,9 @@ int cf::MinimaxComputerPlayer::minimax(cf::gridType& board, int depth, bool maxi
                 undoMove(col, this->getShape(), board);
                 maxEval = std::max(maxEval, eval);
                 alpha = std::max(alpha, eval);
-                // if(beta <= alpha){
-                //     break;
-                // }
+                if(beta <= alpha){
+                    break;
+                }
             }
         }
         return maxEval;
@@ -136,9 +118,9 @@ int cf::MinimaxComputerPlayer::minimax(cf::gridType& board, int depth, bool maxi
                 undoMove(col, m_opposingPlayerShape, board);
                 minEval = std::min(minEval, eval);
                 beta = std::min(beta, eval);
-                // if(beta <= alpha){
-                //     break;
-                // }
+                if(beta <= alpha){
+                    break;
+                }
             }
         }
         return minEval;
@@ -233,162 +215,34 @@ bool cf::MinimaxComputerPlayer::isWinningMove(int col, std::string_view shape, c
     return false;
 }
 
+int cf::MinimaxComputerPlayer::findRandomIndex(std::vector<int> const& arr) {
+    std::vector<int> positiveIndices;
+    std::vector<int> zeroIndices;
+    std::vector<int> negativeIndices;
 
-// const int ROWS = 6;
-// const int COLS = 7;
-// const int PLAYER = 1;
-// const int AI = 2;
+    // Categorize the indices based on their values
+    for(int i = 0; i < arr.size(); ++i){
+        if(arr[i] > 0) {
+            positiveIndices.push_back(i);
+        }else if(arr[i] == 0) {
+            zeroIndices.push_back(i);
+        }else if(arr[i] >= -1000){
+            negativeIndices.push_back(i);
+        }
+    }
 
-// class ConnectFour {
-// private:
-//     std::vector<std::vector<int>> board;
+    // Seed the random number generator
+    std::srand(std::time(nullptr));
 
-// public:
-//     ConnectFour() : board(ROWS, std::vector<int>(COLS, 0)){}
+    // Return a random index based on the conditions
+    if(!positiveIndices.empty()){
+        return positiveIndices[std::rand() % positiveIndices.size()];
+    }else if(!zeroIndices.empty()) {
+        return zeroIndices[std::rand() % zeroIndices.size()];
+    }else /*if(!negativeIndices.empty())*/{
+        return negativeIndices[std::rand() % negativeIndices.size()];
+    }
 
-//     bool isValidMove(int col){
-//         return board[0][col] == 0;
-//     }
-
-//     void makeMove(int col, int player){
-//         for(int row = ROWS - 1; row >= 0; row--){
-//             if(board[col][row] == 0){
-//                 board[col][row] = player;
-//                 break;
-//             }
-//         }
-//     }
-
-//     void undoMove(int col){
-//         for(int row = 0; row < ROWS; row++){
-//             if(board[col][row] != 0){
-//                 board[col][row] = 0;
-//                 break;
-//             }
-//         }
-//     }
-
-//     bool isWinningMove(int col, cf::IPlayer& player){
-//         int row;
-//         for(row = ROWS - 1; row >= 0 && board[col][row] != ; row--);
-        
-//         if(row < 0){
-//             return false;
-//         }
-
-//         // Check horizontal
-//         int count = 0;
-//         for(int c = std::max(0, col - 3); c < std::min(COLS, col + 4); c++){
-//             if(board[row][c] == player) count++;
-//             else count = 0;
-//             if(count == 4) return true;
-//         }
-
-//         // Check vertical
-//         count = 0;
-//         for(int r = row; r < std::min(ROWS, row + 4); r++){
-//             if(board[r][col] == player) count++;
-//             else break;
-//         }
-//         if(count == 4) return true;
-
-//         // Check diagonal (top-left to bottom-right)
-//         count = 0;
-//         for(int i = -3; i <= 3; i++){
-//             int r = row + i;
-//             int c = col + i;
-//             if(r < 0 || r >= ROWS || c < 0 || c >= COLS) continue;
-//             if(board[r][c] == player) count++;
-//             else count = 0;
-//             if(count == 4) return true;
-//         }
-
-//         // Check diagonal (top-right to bottom-left)
-//         count = 0;
-//         for(int i = -3; i <= 3; i++){
-//             int r = row + i;
-//             int c = col - i;
-//             if(r < 0 || r >= ROWS || c < 0 || c >= COLS) continue;
-//             if(board[r][c] == player) count++;
-//             else count = 0;
-//             if(count == 4) return true;
-//         }
-
-//         return false;
-//     }
-
-//     bool isBoardFull(){
-//         for(int col = 0; col < COLS; ++col){
-//             if(isValidMove(col)) return false;
-//         }
-//         return true;
-//     }
-
-//     int evaluate(){
-//         for(int col = 0; col < COLS; ++col){
-//             if(isWinningMove(col, AI)) return 1000;
-//             if(isWinningMove(col, PLAYER)) return -1000;
-//         }
-//         return 0;
-//     }
-
-//     int minimax(int depth, bool maximizingPlayer, int alpha, int beta){
-//         int score = evaluate();
-        
-//         if(depth == 0 || score == 1000 || score == -1000 || isBoardFull()){
-//             return score;
-//         }
-
-//         if(maximizingPlayer){
-//             int maxEval = std::numeric_limits<int>::min();
-//             for(int col = 0; col < COLS; ++col){
-//                 if(isValidMove(col)){
-//                     makeMove(col, AI);
-//                     int eval = minimax(depth - 1, false, alpha, beta);
-//                     undoMove(col);
-//                     maxEval = std::max(maxEval, eval);
-//                     alpha = std::max(alpha, eval);
-//                     if(beta <= alpha) break;
-//                 }
-//             }
-//             return maxEval;
-//         } else {
-//             int minEval = std::numeric_limits<int>::max();
-//             for(int col = 0; col < COLS; ++col){
-//                 if(isValidMove(col)){
-//                     makeMove(col, PLAYER);
-//                     int eval = minimax(depth - 1, true, alpha, beta);
-//                     undoMove(col);
-//                     minEval = std::min(minEval, eval);
-//                     beta = std::min(beta, eval);
-//                     if(beta <= alpha) break;
-//                 }
-//             }
-//             return minEval;
-//         }
-//     }
-
-//     int findBestMove(int depth){
-//         int bestMove = -1;
-//         int bestValue = std::numeric_limits<int>::min();
-//         int alpha = std::numeric_limits<int>::min();
-//         int beta = std::numeric_limits<int>::max();
-
-//         for(int col = 0; col < COLS; ++col){
-//             if(isValidMove(col)){
-//                 makeMove(col, AI);
-//                 int moveValue = minimax(depth - 1, false, alpha, beta);
-//                 undoMove(col);
-
-//                 if(moveValue > bestValue){
-//                     bestMove = col;
-//                     bestValue = moveValue;
-//                 }
-//                 alpha = std::max(alpha, bestValue);
-//             }
-//         }
-
-//         return bestMove;
-//     }
-// };
-
+    // If the array is empty, return -1 (or handle the case as needed)
+    return -1;
+}

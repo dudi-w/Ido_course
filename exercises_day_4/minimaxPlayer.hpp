@@ -2,7 +2,8 @@
 #define MINIMAX_COMPUTER_PLAYER_HPP
 
 #include <string>
-#include <iostream>//TODO
+#include <vector>
+
 
 #include "IFplayer.hpp"
 #include "gridPlay.hpp"
@@ -32,6 +33,7 @@ private:
     void undoMove(int col, std::string_view shape, cf::gridType& board) const;
     bool isWinningMove(int col, std::string_view shape, cf::gridType const& board) const;
     bool isBoardFull(cf::gridType const& board) const;
+    static int findRandomIndex(std::vector<int> const& arr);
 
 
     
