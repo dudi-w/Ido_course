@@ -39,11 +39,22 @@ bool cf::GridPlay::insert(int i, int j, std::string_view shape){
 
 bool cf::GridPlay::move(size_t from_i, size_t from_j, size_t to_i, size_t to_j)
 {
-    std::cout<<from_i<<"  "<<from_j<<" "<<to_i<<" "<<to_j<<std::endl;
+    // std::cout<<from_i<<"  "<<from_j<<" "<<to_i<<" "<<to_j<<std::endl;
     if(to_j < m_grid[0].size() && !isEmptyCell(from_i,from_j) && isEmptyCell(to_i,to_j)){
         m_grid[to_i][to_j] = m_grid[from_i][from_j];
         m_grid[from_i][from_j].clear();
         return true;
     }
     return false;
+}
+
+bool cf::GridPlay::isFull() const
+{
+    bool boardFull = true;
+    for(int c = 0; c < m_grid.size() && boardFull; ++c){
+        if(m_grid[c][0].empty()){
+            boardFull = false;
+        }
+    }
+    return boardFull;
 }

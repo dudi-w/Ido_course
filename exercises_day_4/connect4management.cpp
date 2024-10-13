@@ -94,12 +94,7 @@ bool cf::Connect4Management::isGameOver(int lastCol, int lastRow) const
     }
     
     // Check if board is full
-    for(int c = 0; c < COLS; ++c){
-        if(board[c][0].empty()){
-            return false;
-        }
-    }
-    return false;
+    return m_grid.isFull();
 }
 
 std::pair<int,int> cf::Connect4Management::makeStep(cf::IPlayer &player) const
@@ -119,11 +114,17 @@ std::pair<int,int> cf::Connect4Management::makeStep(cf::IPlayer &player) const
 
 void cf::Connect4Management::winMessage() const
 {
-    std::string mess = "Player ";
-    cf::IPlayer& winPlayer = !m_steps ? m_player2 : m_player1;
-    mess += winPlayer.getName();
-    mess += " ";
-    mess += winPlayer.getShape();
-    mess += " has won!!!\nCongratulations";
+    std::string mess;
+    if(!m_grid.isFull()){
+        mess = "Player ";
+        cf::IPlayer& winPlayer = !m_steps ? m_player2 : m_player1;
+        mess += winPlayer.getName();
+        mess += " ";
+        mess += winPlayer.getShape();
+        mess += " has won!!!\nCongratulations";
+    }else{
+        mess = "⊹ ࣪ ﹏𓊝﹏𓂁﹏⊹ ࣪ ˖ draw! No one won ▄︻デ══━一💥";
+    }
     std::cout<<mess<<std::endl;
+
 }

@@ -7,6 +7,7 @@
 namespace cf {
 
 using gridType = std::array<std::array<std::string,6>,7>;
+
 class GridPlay
 {
 public:
@@ -20,6 +21,7 @@ public:
     bool isEmptyCell(int i, int j) const;
     bool insert(int i, int j, std::string_view shape);
     bool move(size_t from_i, size_t from_j, size_t to_i, size_t to_j);
+    bool isFull() const;
 
 private:
     cf::gridType m_grid;
